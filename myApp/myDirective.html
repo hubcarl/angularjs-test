@@ -1,0 +1,107 @@
+<!doctype html>
+<html ng-app="myApp">
+<meta charset="utf-8">
+<head>
+	<style type="text/css">
+		
+.expander {
+border: 1px solid black;
+width: 250px;
+}
+.expander>.title {
+background-color: black;
+color: white;
+padding: .1em .3em;
+cursor: pointer;
+}
+.expander>.body {
+padding: .1em .3em;
+}
+		
+	</style>
+
+</head>
+<body>
+<hello>aaaaaaaaaaa</hello>
+
+<div ng-controller='SomeController'>
+	<expander class='expander' expander-title='title'>
+	{{text}}
+	</expander>
+</div>
+
+
+
+<div ng-controller="SearchTest">
+<!--Sidebar content-->
+Search: <input ng-model="query">
+
+<div>
+<!--Body content-->
+<ul>
+	<li ng-repeat="phone in phones|filter:query">
+	{{phone.name}}<p>{{phone.snippet}}</p>
+	</li>
+</ul>
+</div>
+
+</div>
+
+
+
+</body>
+
+<script src="../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+<script>
+
+var myApp = angular.module('myApp', []);
+
+myApp.controller("SearchTest",function($scope){
+	$scope.phones = [
+	{name: "Nexus S",snippet: "Fast just got faster with Nexus S."},
+	{name: "Motorola XOOM with Wi-Fi",snippet: "The Next, Next Generation tablet."},
+	{name: "MOTOROLA XOOM",snippet: "The Next, Next Generation tablet."}];
+	$scope.query="Nexus";
+});
+
+myApp.directive('hello', function() {
+return {
+  restrict: 'E',
+  template: '<div>Hi there</div>',
+  replace: true
+};
+});
+
+
+myApp.directive('expander', function() {
+return {
+restrict : 'EA',
+	replace : true,
+transclude : true,
+scope : {
+title : '=expanderTitle'
+},
+template : '<div>'
++ '<div class="title" ng-click="toggle()">{{title}}</div>'
++ '<div class="body" ng-show="showMe" ng-transclude></div>'
++ '</div>',
+link : function(scope, element, attrs) {
+scope.showMe = false;
+scope.toggle = function toggle() {
+scope.showMe = !scope.showMe;
+}
+}
+}
+});
+myApp.controller('SomeController',function($scope) {
+$scope.title = '点击展开';
+$scope.text = '这里是内部的内容。';
+});
+
+
+</script>
+
+
+
+</body>
+</html>

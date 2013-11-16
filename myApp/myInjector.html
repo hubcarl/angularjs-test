@@ -1,0 +1,41 @@
+<!doctype html>
+<html ng-app="myModule">
+<head>
+<meta charset="utf-8">
+<title>Hello Angular.js</title>
+<link rel="stylesheet" href="#">
+<script src="../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+<script>
+
+var myModule = angular.module('myModule', []);
+
+myModule.factory('$alert', ['$window', function($window) {
+
+    return {
+        		alert: function(text) {
+            		$window.alert(text);
+        		}
+    	   };
+    }]);
+
+var myController = function($scope, $alert) {
+    $scope.message = function(msg) {
+        console.log(msg);
+        $alert.alert(msg);
+    };
+};
+myController.$inject = ['$scope', '$alert'];
+myModule.controller("myController", myController);
+
+</script>
+
+<body>
+<div ng-app="myModule"  ng-controller="myController" ng-init="msg='test for alert'" >
+    <input ng-model="msg">
+<button ng-click="message(msg);">click me</button>
+   <br/> {{msg}}
+</div>
+
+<a href='http://www.cnblogs.com/whitewolf/archive/2012/09/11/2680659.html'>Injection</a>
+</body>
+</html>

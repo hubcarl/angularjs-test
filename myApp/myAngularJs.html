@@ -1,0 +1,277 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+<meta charset="utf-8">
+<title>Hello Angular.js</title>
+<link rel="stylesheet" href="#">
+<script src="../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+<script>
+
+
+
+
+</script>
+
+</head>
+<body>
+
+<div>
+  
+    myfirsttag:<myfirsttag></myfirsttag><br>
+    mycolorTag:<span mycolor>mycolorTag 设置 </span><br>
+
+    
+</div>
+<!--演示实例-->
+<div>
+      <div>
+        <button ng-click="show = !show">Show</button>
+        <pre>
+        注意：在这里对于ng-click我们并不是直接在controller中创建function(此刻我们没真正的controller)，<br>
+        利用angular表达式作为指令的参数。在首次表达式为undefined，然后我们设置为为true，在false如此交替。
+        </pre>
+        <div ng-show="show">
+
+          I am only visible when show is true.
+
+        </div>
+      </div>
+      <div ng-controller="MainController">
+      		<b ng-init='title = "Welcome to Angular!"'>Hello, {{ title }}</b> <br/>
+
+      		<button ng-click="counter = counter + 1">Add one</button> <br/>
+      		Current counter: {{ counter }} <br/>
+
+      		<div ng-controller="MyClickController" >
+      		<button  ng-click="sayHello()">Say hello</button> <br/>
+      		</div>
+
+      		<h2>ng-show和ng-hide指令</h2>
+      		<button ng-init="shouldShow = true" ng-click="shouldShow = !shouldShow">Flip the shouldShow variable</button>
+      		 <div ng-show="shouldShow">
+      		   <h3>Showing {{ shouldShow }}</h3>
+      		 </div> <div ng-hide="shouldShow">
+      		   <h3>Hiding {{ shouldShow }}</h3>
+      		 </div>
+               
+               <h2>ng-repeat指令--遍历数组</h2>
+               <ul>
+
+               	<li ng-repeat="person in roommates">{{ person.name }}</li> 
+
+               </ul>
+              <h2>ng-repeat指令--遍历key-value</h2>
+              <ul>
+         			  <li ng-repeat="(name, color) in people">{{ name }}'s favorite color is {{ color }}</li>
+              </ul>
+      </div>
+
+
+      <h2>My Name is {{ name }}<h2>
+
+      <div id="container" ng-controller="MyController">
+
+      <h2>The Person's is {{ person.name }}<h2>
+      <div>
+            <input type="text" ng-model="yourName" placeholder="Enter a name here">
+            <h1>Hello, {{ yourName }}!</h1>
+      </div>
+
+
+      <h2>数据绑定</h2>
+      <div id="media">
+      	
+      	<div ng-controller="PlayerController">
+        		<button ng-click="play()" class="button" ng-show="!playing">Play</button>
+        		<button ng-click="stop()" class="button alert" ng-show="playing">Stop</button>
+        			Playing audio: <b>{{ playing }}</b>
+      	</div>
+
+      </div>
+
+      <h2>数据绑定Model->View </h2>
+      <div ng-controller="MyClockController">
+        <h5>{{ clock }}</h5>
+      </div>
+
+      <h2>事件绑定ng-click</h2>
+      <div ng-controller="MyDataBindController">
+        <h4>The simplest adding machine ever</h4>
+        <button ng-click="add(1)" class="button">Add</button>
+        <button ng-click="subtract(1)" class="button">Subtract</button>
+        <h4>Current count: {{ counter }}</h4>
+      </div>
+
+
+      <div>
+      <br/><br/><br/><br/>
+      本系列的官方代码库可从github上下载：<br />
+
+      https://github.com/auser/ng-newsletter-beginner-series.<br />
+
+      要将这个代码库保存到本地，请先确保安装了git，clone此代码库，然后check out其中的part2分支：<br />
+
+      git clone https://github.com/auser/ng-newsletter-beginner-series.git <br />
+      git checkout -b part2<br />
+
+      </div>
+      </div>
+</div>
+
+<script>
+
+
+
+var app = angular.module('myApp',[]);
+
+app.directive('myfirsttag', function() {
+return {
+    restrict: 'E',
+    template: '<span>directive使用</span>',
+    replace: true
+};
+});
+
+
+app.directive("mycolor",function(){
+
+  return {
+
+    restrict: "A",
+
+    replace: true,
+
+    template: "border=1px solid red"
+
+    };
+});
+
+
+app.run(function($rootScope) {
+    $rootScope.name = "BlueSky";
+});
+
+app.controller('MyController', function($scope) {
+  $scope.person = {
+    name: "Ari Lerner"
+  };
+});
+
+app.controller('PlayerController', ['$scope', function($scope) {
+  $scope.playing = false;
+  $scope.audio = document.createElement('audio');
+  $scope.audio.src = 'http://www.ng-newsletter.com/media/npr.mp4';
+  $scope.play = function() {
+    $scope.audio.play();
+    $scope.playing = true;
+  };
+  $scope.stop = function() {
+    $scope.audio.pause();
+    $scope.playing = false;
+  };
+  $scope.audio.addEventListener('ended', function() {
+    $scope.$apply(function() {
+      $scope.stop()
+    });
+  });
+}]);
+
+
+app.controller('MyClockController', function($scope) {  
+  $scope.person = { name: "Ari Lerner" };  
+  var updateClock = function() {    $scope.clock = new Date(); };  
+  var timer = setInterval(function() { $scope.$apply(updateClock);  }, 1000);  
+  updateClock();
+});
+
+app.controller('MyDataBindController',function($scope){
+  $scope.counter = 0;
+  $scope.add = function(amount) { $scope.counter += amount; };
+  $scope.subtract = function(amount) { $scope.counter -= amount; };
+});
+
+app.controller('MyClickController', function($scope) {
+   $scope.sayHello = function() {
+     alert("hello!");
+   }
+ });
+
+/*
+$http({  method: 'JSONP',  url: 'http://api.openbeerdatabase.com/v1/beers.json?callback=JSON_CALLBACK'
+}).success(function(data, status, headers, config) {
+ // data contains the response 
+ // status is the HTTP status  
+ // headers is the header getter function 
+ // config is the object that was used to create the HTTP request
+}).error(function(data, status, headers, config) {
+
+});
+*/
+
+app.controller('MainController',function($scope){
+
+$scope.roommates = [
+   { name: 'Ari'},
+   { name: 'Q'},
+   { name: 'Sean'},
+   { name: 'Anand'}
+ ];
+
+$scope.people = {
+   'Ari': 'orange',
+   'Q': 'purple',
+   'Sean': 'green'
+ }
+
+});
+
+// 立一个单例audio service
+app.factory('audio', ['$document', function($document) {
+  var audio = $document[0].createElement('audio');
+  return audio;
+}]);
+
+// 立一个单例player service
+app.factory('player', ['audio', function(audio) {
+  var player = {
+    playing: false,
+    current: null,
+    ready: false,
+ 
+    play: function(program) {
+      // If we are playing, stop the current playback
+      if (player.playing) player.stop();
+      var url = program.audio[0].format.mp4.$text; // from the npr API
+      player.current = program; // Store the current program
+      audio.src = url;
+      audio.play(); // Start playback of the url
+      player.playing = true
+    },
+ 
+    stop: function() {
+      if (player.playing) {
+        audio.pause(); // stop playback
+        // Clear the state of the player
+        player.ready = player.playing = false; 
+        player.current = null;
+      }
+    }
+  };
+  return player;
+}]);
+
+
+app.controller('PlayerController', ['$scope', 'player',
+  function($scope, player) {
+  $scope.player = player;
+}]);
+
+
+
+
+</script>
+
+
+
+</body>
+</html>

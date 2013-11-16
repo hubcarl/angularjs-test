@@ -1,0 +1,73 @@
+<!doctype html>
+<html ng-app="myApp">
+<meta charset="utf-8">
+<head>
+<script src="../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+<script>
+
+
+
+angular.module("myApp", []).controller("filterTest", function($scope){}).
+filter("fullname", function() {
+    var filterfun = function(person, sep) {
+        sep = sep || " ";
+       
+        person = person || {};
+     
+        person.first = person.first || "";
+
+     
+        person.last = person.last || "";
+
+        return person.first + sep + person.last;
+    };
+    return filterfun;
+});
+
+</script>
+
+</head>
+<div ng-controller="filterTest">
+
+money:<input ng-model="money" />
+<br/>
+{{money | currency}}
+
+<br/>
+{{money | currency:0}}
+
+
+<br/>
+num:<input ng-model="num" />
+<br/>
+{{num | number}}
+<br/>
+{{num | number:0}}
+<br/>
+{{num | number:2}}
+<br/>
+first name:<input ng-model="person.first"/>
+<br/>
+last name:<input ng-model="person.last"/>
+<br/>
+name: {{person | fullname}}
+    <br/>
+name: {{person | fullname:"- -"}}
+       <br/>
+name: {{person | fullname:" " | uppercase }}
+<br/>
+name: {{person | fullname:"&" | uppercase }}
+
+</div>
+
+<div>
+    
+{{ "lower cap string" | uppercase }}
+{{ {foo: "bar", baz: 23} | json }}
+{{ 1304375948024 | date }}
+{{ 1304375948024 | date:"MM/dd/yyyy @ h:mma" }}
+
+</div>
+
+</body>
+</html>

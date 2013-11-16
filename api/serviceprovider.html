@@ -1,0 +1,48 @@
+<!doctype html>
+<html data-ng-app="wtc">
+<head>
+<meta charset="utf-8">
+<title>Hello Sea.js</title>
+<script src="../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+<script>
+	var wtcModule = angular.module('wtc', []);
+
+	wtcModule.service('testService',function(){
+	     this.lable = 'this is service';
+	});
+
+	wtcModule.factory('testFactory', function () {
+	     return{
+	        lable: function(){
+	        return 'this is factory';
+	        }
+	    }
+	});
+
+	wtcModule.provider('testProvider', function(){
+	    this.$get = function(){
+	        return 'this is provider';
+	    }
+	});
+
+	wtcModule.controller('outputCtrl', function($scope,testService, testFactory, testProvider){
+    	$scope.output1 = testService.lable;
+    	$scope.output2 = testFactory.lable();
+    	$scope.output3 = testProvider;
+	});
+</script>
+</head>
+<body ng-controller='outputCtrl'>
+    <p>{{ output1 }}</p>
+    <p>{{ output2 }}</p>
+    <p>{{ output3 }}</p>
+    
+ <p>说明：</p>
+
+ <p>注入service，相当于注入service定义时的function实例。</p>
+
+ <p>注入factory，相当于注入factory定义时的函数调用入口。</p>
+
+ <p>注入provider，相当于注入provider内$get定义的函数实例的调用。</p>
+</body>
+</html>
