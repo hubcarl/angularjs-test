@@ -7,9 +7,6 @@
 <script src="../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
 <script>
 
-
-
-
 </script>
 
 </head>
@@ -25,7 +22,7 @@
 <!--演示实例-->
 <div>
       <div>
-        <button ng-click="show = !show">Show</button>
+        <button  ng-click="show = !show">Show</button>
         <pre>
         注意：在这里对于ng-click我们并不是直接在controller中创建function(此刻我们没真正的controller)，<br>
         利用angular表达式作为指令的参数。在首次表达式为undefined，然后我们设置为为true，在false如此交替。
@@ -58,7 +55,6 @@
                <ul>
 
                	<li ng-repeat="person in roommates">{{ person.name }}</li> 
-
                </ul>
               <h2>ng-repeat指令--遍历key-value</h2>
               <ul>
@@ -90,7 +86,7 @@
       </div>
 
       <h2>数据绑定Model->View </h2>
-      <div ng-controller="MyClockController">
+      <div  ng-controller="MyClockController">
         <h5>{{ clock }}</h5>
       </div>
 
@@ -124,6 +120,7 @@
 
 var app = angular.module('myApp',[]);
 
+
 app.directive('myfirsttag', function() {
 return {
     restrict: 'E',
@@ -132,7 +129,7 @@ return {
 };
 });
 
-
+/***********************************
 app.directive("mycolor",function(){
 
   return {
@@ -145,7 +142,7 @@ app.directive("mycolor",function(){
 
     };
 });
-
+***********************************/
 
 app.run(function($rootScope) {
     $rootScope.name = "BlueSky";

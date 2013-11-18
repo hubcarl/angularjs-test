@@ -1,0 +1,60 @@
+<html ng-app="myApp">
+	<script type="text/javascript" src="../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+  <script>
+      var app = angular.module('myApp',[]);
+
+      // service 就是 调用了 $injector 注入器的 factory ，简化数据共享的实现!
+      app.service('reverseService',function(){
+        this.reverse = function(text){
+            return text.split(" ").reverse().join(" ");
+        }
+      });
+
+      //factory 是对 provider的封装
+      app.factory('testFactory', function(){
+          return {
+              sayHello: function(text){
+                  return "Factory says \"Hello " + text + "\"";
+              },
+              sayGoodbye: function(text){
+                  return "Factory says \"Goodbye " + text + "\"";
+              }  
+          }               
+      });
+
+      app.service('testService', function(){
+          this.sayHello= function(text){
+              return "Service says \"Hello " + text + "\"";
+          };        
+          this.sayGoodbye = function(text){
+              return "Service says \"Goodbye " + text + "\"";
+          };   
+      });
+
+      function HelloCtrl($scope, testService, testFactory)
+      {
+          $scope.fromService = testService.sayHello("World");
+          $scope.fromFactory = testFactory.sayHello("World");
+      }
+
+      function GoodbyeCtrl($scope, testService, testFactory)
+      {
+          $scope.fromService = testService.sayGoodbye("World");
+          $scope.fromFactory = testFactory.sayGoodbye("World");
+      }
+
+  </script>
+  <head></head>
+  <body ng-app="myApp"<span></span>
+      <div ng-controller="HelloCtrl">
+          <p>{{fromService}}</p>
+          <p>{{fromFactory}}</p>
+      </div>
+      <br />
+      <div ng-controller="GoodbyeCtrl">
+          <p>{{fromService}}</p>
+          <p>{{fromFactory}}</p>
+      </div>
+
+  </body>
+</html>
