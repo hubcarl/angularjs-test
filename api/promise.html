@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script>
+        app.factory('SonService', function ($http, $q) {
+            return {
+                getWeather: function() {
+                    // the $http API is based on the deferred/promise APIs exposed by the $q service
+                    // so it returns a promise for us by default
+                    return $http.get('http://fishing-weather-api.com/sunday/afternoon')
+                            .then(function(response) {
+                                if (typeof response.data === 'object') {
+                                    return response.data;
+                                } else {
+                                    // invalid response
+                                    return $q.reject(response.data);
+                                }
+
+                            }, function(response) {
+                                // something went wrong
+                                return $q.reject(response.data);
+                            });
+                }
+            };
+        });
+        /*
+         Angular里有个then()函数，then()接收两个functions作为参数
+         第一个在promise is resolved的时候执行，
+         第二个在promise is rejected的时候执行
+         */
+        var makePromiseWithSon = function(SonService) {
+            // This service's function returns a promise, but we'll deal with that shortly
+            SonService.getWeather()
+                // then() called when son gets back
+                    .then(function(data) {
+                        // promise fulfilled
+                        if (data.forecast==='good') {
+                            prepareFishingTrip();
+                        }
+                        else {
+                            prepareSundayRoastDinner();
+                        }
+                    }, function(error) {
+                        // promise rejected, could log the error with: console.log('error', error);
+                        prepareSundayRoastDinner();
+                    });
+        };
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
