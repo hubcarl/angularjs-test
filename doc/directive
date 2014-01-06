@@ -1,0 +1,51 @@
+http://www.cnblogs.com/lcllao/archive/2012/09/09/2677190.html
+http://docs.angularjs.org/guide/directive
+http://www.befundoo.com/university/tutorials/angularjs-directives-tutorial/
+http://www.ng-newsletter.com/posts/directives.html
+http://seanhess.github.io/2013/10/14/angularjs-directive-design.html
+
+http://www.bennadel.com/blog/2447-Exploring-Directive-Controllers-Compiling-Linking-And-Priority-In-AngularJS.htm
+http://blog.brunoscopelliti.com/use-cases-of-angularjs-directives
+http://amitgharat.wordpress.com/2013/06/08/the-hitchhikers-guide-to-the-directive/
+http://www.codeproject.com/Articles/607873/Extending-HTML-with-AngularJS-Directives
+http://www.thinkster.io/pick/rep5re7gTM/angularjs-directive-restrictions
+http://thecodebarbarian.wordpress.com/2013/09/23/the-8020-guide-to-writing-angularjs-directives/
+
+
+controller - controller 构造函数。controller会在pre-linking步骤之前进行初始化，并允许其他directive通过指定名称的require进行共享（看下面的require属性）。这将允许directive之间相互沟通，增强相互之间的行为。controller默认注入了以下本地对象：
+
+
+$scope - 与当前元素结合的scope
+
+
+$element - 当前的元素
+
+
+$attrs - 当前元素的属性对象
+
+
+$transclude - 一个预先绑定到当前转置scope的转置linking function :function(cloneLinkingFn)。(A transclude linking function pre-bound to the correct transclusion scope)
+
+
+require - 请求另外的controller，传入当前directive的linking function中。require需要传入一个directive controller的名称。如果找不到这个名称对应的controller，那么将会抛出一个error。名称可以加入以下前缀：
+
+
+? - 不要抛出异常。这使这个依赖变为一个可选项。
+
+
+^ - 允许查找父元素的controller
+
+
+restrict - EACM的子集的字符串，它限制directive为指定的声明方式。如果省略的话，directive将仅仅允许通过属性声明：
+
+
+E - 元素名称： <my-directive></my-directive>
+
+
+A - 属性名： <div my-directive=”exp”></div>
+
+
+C - class名： <div class=”my-directive:exp;”></div>
+
+
+M - 注释 ： <!-- directive: my-directive exp -->

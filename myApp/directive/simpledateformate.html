@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" ng-app="TimeFormat">
+<head>
+  <meta charset="UTF-8">
+  <title>time-format</title>
+</head>
+<body>
+<div ng-controller="MyCtrl" id="main">
+  Date format: <input ng-model="format" type="text"/><hr/>
+  <!--下面使用属性x-current-time，是为了试试上面说的合法命名~~current:time、current-time、current_time、data-current-time -_-!!! -->
+  Current time is : <span x-current-time="format" id="myFormat"></span><br/>
+  <button ng-click="remove()">remove the span</button>
+</div>
+<script src="../../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+<script type="text/javascript">
+  angular.module("TimeFormat", [])
+    //在TimeFormat应用中注册“currentTime”这个directive的工厂方法
+    //前文提到过，依赖注入，可以直接在function的参数中写入，这里注入了$timeout、dataFilter
+    .directive("currentTime", function (dateFilter) {
+      //这个是上面提到的linking function。(不需要添加compile function，为啥？。。。)
+      return function (scope, element, attr) {
+        var intervalId;
+        //更新对应element的text值，即更新时间
+        function updateTime() {
+          element.text(dateFilter(new Date(), scope.format));
+        }
+        //通过watch，监控span对象的currentTime的值(是format这个model值，即input的值！！)
+        //这个方法仅仅在format发生改变的时候执行
+        scope.$watch(attr.currentTime, function (value) {
+          scope.format = value;
+          updateTime();
+        });
+        //当span被去掉的时候，取消更新
+        element.bind("$destroy", function () {
+          clearInterval(intervalId);
+        });
+
+        intervalId = setInterval(updateTime, 1000);
+      };
+    }).controller("MyCtrl",function($scope,$rootScope) {
+      $scope.format = "M/d/yy h:mm:ss a";
+      $scope.remove = function() {
+        var oFormat = document.getElementById("myFormat");
+        if(oFormat) {
+          angular.element(oFormat).remove();//通过这种方式调用remove，可以触发$destroy事件啊！！！试了我N久。。。
+        }
+      };
+    });
+</script>
+</body>
+</html>

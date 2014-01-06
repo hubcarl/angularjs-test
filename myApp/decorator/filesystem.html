@@ -1,0 +1,46 @@
+<!doctype html>
+<html ng-app="plunker" >
+<head>
+  <meta charset="utf-8">
+  <title>AngularJS Plunker</title>
+  <script>document.write('<base href="' + document.location + '" />');</script>
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="../../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+  <script src="toastr.js"></script>
+  <script src="filesystem.js"></script>
+</head>
+<body ng-controller="MainCtrl">
+<div ng-switch="isFileSystemSupported">
+  <h3 ng-switch-when="true">File System API supported by this browser!</h3>
+  <h3 ng-switch-when="false">File System API NOT supported by this browser!</h3>
+</div>
+<!--<div class="alert alert-info">
+  Verifying the results:
+  <ul>
+    <li>Browsers that support File System API (only Chrome at the moment. Tested on v26) - Click the following URL <a href="filesystem:http://run.plnkr.co/temporary/" target="_blank">filesystem:http://run.plnkr.co/temporary/</a>. You'll see the list of files added.</li>
+    <li>Other browsers that don't support File System API - Watch the console for confirmation message. Data will be added to sessionStorage.</li>
+  </ul>
+</div>-->
+<form class="form-inline">
+  <fieldset>
+    <legend>Enter the data to be stored ...</legend>
+    <input type="text" class="input-small" placeholder="Key" ng-model="record.key">
+    <input type="text" class="input-small" placeholder="Value" ng-model="record.value">
+    <button type="submit" class="btn" ng-click="save(record)">Save</button>
+  </fieldset>
+</form>
+<h4>Results</h4>
+<div class="well well-large result" ng-switch="isFileSystemSupported">
+  <div ng-switch-when="true" dir-result>
+    <iframe name="fs" seamless src="filesystem:http://run.plnkr.co/temporary/" height="200"></iframe>
+  </div>
+  <div ng-switch-when="false" dir-result>
+    <ul>
+      <li ng-repeat="(key, value) in data">{{key}} = {{value}}</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html> 

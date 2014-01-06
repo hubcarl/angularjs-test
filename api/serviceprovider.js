@@ -39,7 +39,7 @@ function GoodbyeCtrl($scope, testService, testFactory)
 }
 
 
-app.service('reverseService',function（){
+app.service('reverseService',function(){
     this.reverse = function(text){
         return text.split(" ").reverse().join(" ");
     }
