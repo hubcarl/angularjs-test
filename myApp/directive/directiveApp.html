@@ -4,22 +4,24 @@
   <title></title>
   <script src="../../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
   <script>
+
     var myApp = angular.module('myApp', []);
-    console.log(myApp);
     myApp.controller("myDirective", function ($scope) {
       $scope.alert = function (msg) {
         alert('welcome:' + msg);
         console.log('welcome:' + msg);
       }
     });
+
+    // 驼峰命名,使用方式 my-Directive 或者 my-directive
     myApp.directive('myDirective', function () {
       return {
         restrict:'E',
         replace:true,
         template:'<div><input type="button" ng-click="thefunc()" value="{{title}}"/></div>',
         scope:{
-          title:'@', // 属性
-          thefunc:'&'  // 方法
+          title:'@', // 属性,引用derective标签中的title属性值
+          thefunc:'&'  // 方法,引用derective标签中的thefunc函数
         }
       };
     });
@@ -27,7 +29,7 @@
 </head>
 <body>
 <div ng-controller="myDirective">
-  <my-Directive thefunc="alert('myDirective Test!!!!!')" title="Click Me! myDirective Test"/>
+  <my-directive thefunc="alert('myDirective Test!!!!!')" title="Click Me! myDirective Test"/>
 </div>
 </body>
 </html>

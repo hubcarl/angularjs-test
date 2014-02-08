@@ -1,0 +1,36 @@
+<!doctype html>
+<html ng-app="docsIsolateScopeDirective">
+<head>
+  <script src="../../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+  <script>
+
+    /*独立的 isolate scope —— directive with scope: {...}。
+    它不是原型继承，但 ‘=’, ‘@’ 和 ‘&’ 提供了访问父 Scope 属性的机制。*/
+    angular.module('docsIsolateScopeDirective', [])
+      .controller('Ctrl', function($scope) {
+        $scope.naomi = { name: 'Naomi', address: '1600 Amphitheatre' };
+        $scope.igor = { name: 'Igor', address: '123 Somewhere' };
+      })
+      .directive('myCustomer', function() {
+        return {
+          restrict: 'E',
+          //  isolate scope 本地scope。directive scope 与 外部 scope 分离
+          // customerInfo  对应directive 的 isolate scope 属性 customerInfo.
+          //  =info 通知 $compile 绑定 info 属性
+          scope: {
+            customerInfo: '=info'
+          },
+          template: 'Name: {{customerInfo.name}} Address: {{customerInfo.address}}'
+        };
+      });
+
+  </script>
+</head>
+<body>
+<div ng-controller="Ctrl">
+  <my-Customer info="naomi"></my-Customer>
+  <hr>
+  <my-Customer info="igor"></my-Customer>
+</div>
+</body>
+</html>

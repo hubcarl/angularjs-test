@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="website">
+<head>
+  <meta charset="UTF-8">
+  <script src="../../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+  <script>
+    var app = angular.module('website', []);
+    app.directive('clickLoad', function ($q, $http, $templateCache) {
+      return function (scope, element, attrs) {
+        scope.loadData = function () {
+          $http({method:'GET', url:'http://fiddle.jshell.net', cache:true}).then(function (result) {
+            alert('loaded ' + result.data.length + " bytes");
+          });
+        }
+      };
+    });
+
+    app.controller('MyController',function($scope, $http, $templateCache){
+      $scope.load = function ()
+      {
+        $http({method:'GET', url:'http://fiddle.jshell.net', cache:true}).then(function (result) {
+          alert('loaded ' + result.data.length + " bytes");
+        });
+      }
+    });
+  </script>
+</head>
+<body ng-controller="MyController">
+<a href='#' ng-click="load()">Click Event</a>
+<a href='#' click-load ng-click="loadData()">Click Directive</a>
+</body>
+</html>​

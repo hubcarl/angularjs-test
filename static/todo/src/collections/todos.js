@@ -2,7 +2,7 @@ define(function(require, exports, module){
 	var Backbone, TodoModel, TodosCollection;
 
 	Backbone = require('backbone');
-	require('../vendor/backbone.localStorage');
+	require('../vendor/backbone.localStorage.js');
 
   var $ = require('$');
   var _ = require('underscore');

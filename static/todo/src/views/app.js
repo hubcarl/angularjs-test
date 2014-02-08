@@ -5,7 +5,7 @@ define(function(require, exports, module){
   var _ = require('underscore');
 
 	Backbone = require('backbone');
-	TodoView = require('../views/todos');
+	TodoView = require('todos');
 	todos = require('../collections/todos');
 	common = require('../common');
 

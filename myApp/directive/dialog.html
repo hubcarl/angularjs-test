@@ -12,8 +12,9 @@
   <dialog title="Hello {{username}}"
           visible="{{show}}"
           on-cancel="show=false;"
-          on-ok="show=false;methodInParentScope();">
-    <!--上面的on-cancel、on-ok，是在directive的isoloate scope中通过&引用的。如果表达式中包含函数，那么需要将函数绑定在parent scope（当前是MyCtrl的scope）中-->
+          on-ok="show=false;parentScope();">
+    <!--上面的on-cancel、on-ok，是在directive的isoloate scope中通过&引用的。
+    如果表达式中包含函数，那么需要将函数绑定在parent scope（当前是MyCtrl的scope）中-->
     Body goes here: username:{{username}} , title:{{title}}.
     <ul>
       <!--这里还可以这么玩~names是parent scope的-->
@@ -28,8 +29,8 @@
     $scope.show = false;
     $scope.username = "carl";
     $scope.title = "parent title";
-    $scope.methodInParentScope = function() {
-      alert("scope里面通过&定义的东东，是在父scope中定义！！。。。");
+    $scope.parentScope = function() {
+      alert("scope里面通过&定义的东东，是在父scope中定义");
     };
   });
   myModule.directive('dialog', function factory() {

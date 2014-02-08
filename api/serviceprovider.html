@@ -1,17 +1,17 @@
 <!doctype html>
-<html data-ng-app="wtc">
+<html data-ng-app="myApp">
 <head>
 <meta charset="utf-8">
 <title>Hello Sea.js</title>
 <script src="../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
 <script>
-	var wtcModule = angular.module('wtc', []);
+	var myApp = angular.module('myApp', []);
 
-	wtcModule.service('testService',function(){
+  myApp.service('testService',function(){
 	     this.lable = 'this is service';
 	});
 
-	wtcModule.factory('testFactory', function () {
+  myApp.factory('testFactory', function () {
 	     return{
 	        lable: function(){
 	        return 'this is factory';
@@ -19,17 +19,18 @@
 	    }
 	});
 
-	wtcModule.provider('testProvider', function(){
+  myApp.provider('testProvider', function(){
 	    this.$get = function(){
 	        return 'this is provider';
 	    }
 	});
 
-	wtcModule.controller('outputCtrl', function($scope,testService, testFactory, testProvider){
+  myApp.controller('outputCtrl', function($scope,testService, testFactory, testProvider){
     	$scope.output1 = testService.lable;
     	$scope.output2 = testFactory.lable();
     	$scope.output3 = testProvider;
 	});
+
 </script>
 </head>
 <body ng-controller='outputCtrl'>

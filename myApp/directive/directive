@@ -42,10 +42,10 @@ restrict - EACM的子集的字符串，它限制directive为指定的声明方�
 E - 元素名称： <my-directive></my-directive>
 
 
-A - 属性名： <div my-directive=”exp”></div>
+A - 属性名： <div my-directive="exp"></div>
 
 
-C - class名： <div class=”my-directive:exp;”></div>
+C - class名： <div class="my-directive:exp;"></div>
 
 
 M - 注释 ： <!-- directive: my-directive exp -->

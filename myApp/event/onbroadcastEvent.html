@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="onBroadcastEvent">
+<head>
+  <title>事件广播与接收</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <script src="../../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+  <script>
+
+    angular.module('onBroadcastEvent', ['ng'])
+      .controller('MainController', function($scope) {
+        $scope.$on('To-MainController', function(event,msg) {
+          console.log('MainController received:' + msg);
+        });
+      })
+      .controller('ParentController', function($scope) {
+        $scope.click = function (msg) {
+          $scope.$emit('To-MainController',msg + ',from ParentController to MainController');
+          $scope.$broadcast('To-ChildController', msg + ',from ParentController to ChildController');
+          $scope.$broadcast('To-BrotherController', msg + ',from ParentController to BrotherController');
+        }
+      })
+      .controller('ChildController', function($scope){
+        $scope.$on('To-ChildController', function(event,msg) {
+          console.log('ChildController received:' + msg);
+        });
+      })
+      .controller('BrotherController', function($scope){
+        $scope.$on('To-BrotherController', function(event, msg) {
+          console.log('BrotherController received:' + msg);
+        });
+      });
+  </script>
+</head>
+<body>
+<!--
+发送消息： $scope.$emit(name, data) 或者 $scope.$broadcast(name, data);
+接收消息： $scope.on(name,function(event,data){ });
+区别 $emit 广播给父controller   $broadcast 广播给子controller
+broadcast 是从发送者向他的子scope广播一个事件。
+这里就是ParentController发送， ParentController 和 ChildController 会接受到, 而MainController是不会收到的
+$emit 广播给父controller，父controller 是可以收到消息
+on 第二个参数  function(event,msg)  第一个参数是事件对象，第二个参数是接收到消息信息
+-->
+<div ng-controller="MainController">
+   <div ng-controller="ParentController" ng-click="click('Hello')"
+        style="height: 40px;width: 400px;border: 1px solid red;">
+     $scope.on  与 $scope.broadcast 测试,click me!
+     <div ng-controller="ChildController">
+     </div>
+  </div>
+  <div ng-controller="BrotherController">
+
+  </div>
+</div>
+</div>
+</body>
+</html>

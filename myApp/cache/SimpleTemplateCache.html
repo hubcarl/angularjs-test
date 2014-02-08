@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <title>28 - $templateCache</title>
+  <link rel="stylesheet" href="../../css/foundation.min.css">
+</head>
+<body>
+<lessonnav id="navbar" ng-controller="lessonNavCtrl"></lessonnav>
+
+<div ng-app="app">
+  <!-- <script type="text/ng-template" id="zippy.html">
+   <div>
+     <h3 ng-click="toggleContent()">{{title}}</h3>
+     <div ng-show="isContentVisible" ng-transclude>Hello world</div>
+   </div>
+ </script> -->
+  <input type="text" ng-model="model.title">
+  <input type="text" ng-model="model.content">
+
+  <zippy title="{{model.title}}">
+    This is the {{model.content}}
+  </zippy>
+</div>
+
+<script src="../../sea-modules/angular/angularjs/1.1.5/angular.js"></script>
+<script type="text/javascript" src="fakeTemplateCache.js"></script>
+</body>
+<html>
